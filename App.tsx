@@ -1,0 +1,67 @@
+import React from 'react';
+import { HashRouter, Routes, Route, Link } from 'react-router-dom';
+import Header from './components/layout/Header';
+import Footer from './components/layout/Footer';
+import HomePage from './pages/HomePage';
+import ServicesPage from './pages/ServicesPage';
+import ServiceDetailPage from './pages/ServiceDetailPage';
+import BlogPage from './pages/BlogPage';
+import BlogPostPage from './pages/BlogPostPage';
+import AuthorPage from './pages/AuthorPage';
+import ContactPage from './pages/ContactPage';
+import NotFoundPage from './pages/NotFoundPage';
+import { Button } from './components/ui/Button';
+import ScrollToTop from './components/ScrollToTop';
+import SpecialistsPage from './pages/SpecialistsPage';
+import LegalNoticePage from './pages/LegalNoticePage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import CookiesPolicyPage from './pages/CookiesPolicyPage';
+import SitemapPage from './pages/SitemapPage';
+
+const CtaSection: React.FC = () => {
+    return (
+        <section className="bg-secondary/50 rounded-lg p-12 text-center mt-16 md:mt-24">
+            <h2 className="text-3xl font-bold text-foreground">¿Listo para dar el primer paso hacia tu bienestar?</h2>
+            <p className="mt-4 max-w-xl mx-auto text-lg text-secondary-foreground">
+                Nuestro equipo de profesionales está listo para ayudarte. Contáctanos hoy mismo.
+            </p>
+            <Link to="/contacto">
+                <Button size="lg" className="mt-8">
+                    Contactar Ahora
+                </Button>
+            </Link>
+        </section>
+    );
+};
+
+const App: React.FC = () => {
+  return (
+      <HashRouter>
+        <ScrollToTop />
+        <div className="flex flex-col min-h-screen">
+          <Header />
+          <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/servicios" element={<ServicesPage />} />
+              <Route path="/servicios/:slug" element={<ServiceDetailPage />} />
+              <Route path="/blog" element={<BlogPage />} />
+              <Route path="/blog/:slug" element={<BlogPostPage />} />
+              <Route path="/especialistas" element={<SpecialistsPage />} />
+              <Route path="/especialistas/:slug" element={<AuthorPage />} />
+              <Route path="/contacto" element={<ContactPage />} />
+              <Route path="/aviso-legal" element={<LegalNoticePage />} />
+              <Route path="/politica-de-privacidad" element={<PrivacyPolicyPage />} />
+              <Route path="/politica-de-cookies" element={<CookiesPolicyPage />} />
+              <Route path="/mapa-web" element={<SitemapPage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+            <CtaSection />
+          </main>
+          <Footer />
+        </div>
+      </HashRouter>
+  );
+};
+
+export default App;

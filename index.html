@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LUMENA | Clínica de Salud</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Poppins', 'sans-serif'],
+            },
+            colors: {
+              border: 'hsl(22 18% 85%)',
+              input: 'hsl(22 18% 85%)',
+              ring: 'hsl(0 23% 52%)',
+              background: 'hsl(27 33% 96%)',
+              foreground: 'hsl(15 12% 32%)',
+              primary: {
+                DEFAULT: 'hsl(0 23% 52%)',
+                foreground: 'hsl(27 33% 96%)',
+              },
+              secondary: {
+                DEFAULT: 'hsl(22 18% 85%)',
+                foreground: 'hsl(15 12% 32%)',
+              },
+              destructive: {
+                DEFAULT: 'hsl(0 84% 60%)',
+                foreground: 'hsl(27 33% 96%)',
+              },
+              muted: {
+                DEFAULT: 'hsl(24 23% 92%)',
+                foreground: 'hsl(16 10% 50%)',
+              },
+              accent: {
+                DEFAULT: 'hsl(24 23% 92%)',
+                foreground: 'hsl(15 12% 32%)',
+              },
+              card: {
+                DEFAULT: 'hsl(0 0% 100%)',
+                foreground: 'hsl(15 12% 32%)',
+              },
+              cta: {
+                DEFAULT: '#636645',
+                foreground: '#EAD9D3',
+              },
+            },
+            keyframes: {
+              'fade-in-up': {
+                '0%': { opacity: '0', transform: 'translateY(20px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+            },
+            animation: {
+              'fade-in-up': 'fade-in-up 0.6s ease-out forwards',
+            },
+          }
+        }
+      }
+    </script>
+<script type="importmap">
+{
+  "imports": {
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.5",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "clsx": "https://aistudiocdn.com/clsx@^2.1.1",
+    "tailwind-merge": "https://aistudiocdn.com/tailwind-merge@^3.3.1",
+    "@tabler/icons-react": "https://aistudiocdn.com/@tabler/icons-react@^3.11.0",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.417.0",
+    "framer-motion": "https://aistudiocdn.com/framer-motion@^11.3.19"
+  }
+}
+</script>
+</head>
+<body class="bg-background text-foreground">
+    <div id="root"></div>
+</body>
+</html>
