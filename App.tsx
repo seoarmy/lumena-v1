@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter, Routes, Route, Link } from 'react-router-dom';
+import { HashRouter, Routes, Route, Link, useLocation, Outlet } from 'react-router-dom';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import HomePage from './pages/HomePage';
@@ -17,6 +17,7 @@ import LegalNoticePage from './pages/LegalNoticePage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import CookiesPolicyPage from './pages/CookiesPolicyPage';
 import SitemapPage from './pages/SitemapPage';
+import SitemapXmlPage from './pages/SitemapXmlPage';
 
 const CtaSection: React.FC = () => {
     return (
@@ -34,32 +35,48 @@ const CtaSection: React.FC = () => {
     );
 };
 
+// Layout component
+const PageLayout: React.FC = () => {
+  const location = useLocation();
+  const showCta = !['/aviso-legal', '/politica-de-privacidad', '/politica-de-cookies', '/sitemap.xml'].includes(location.pathname);
+
+  return (
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        <Outlet /> {/* Child routes will render here */}
+        {showCta && <CtaSection />}
+      </main>
+      <Footer />
+    </div>
+  );
+};
+
+
 const App: React.FC = () => {
   return (
       <HashRouter>
         <ScrollToTop />
-        <div className="flex flex-col min-h-screen">
-          <Header />
-          <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/servicios" element={<ServicesPage />} />
-              <Route path="/servicios/:slug" element={<ServiceDetailPage />} />
-              <Route path="/blog" element={<BlogPage />} />
-              <Route path="/blog/:slug" element={<BlogPostPage />} />
-              <Route path="/especialistas" element={<SpecialistsPage />} />
-              <Route path="/especialistas/:slug" element={<AuthorPage />} />
-              <Route path="/contacto" element={<ContactPage />} />
-              <Route path="/aviso-legal" element={<LegalNoticePage />} />
-              <Route path="/politica-de-privacidad" element={<PrivacyPolicyPage />} />
-              <Route path="/politica-de-cookies" element={<CookiesPolicyPage />} />
-              <Route path="/mapa-web" element={<SitemapPage />} />
-              <Route path="*" element={<NotFoundPage />} />
-            </Routes>
-            <CtaSection />
-          </main>
-          <Footer />
-        </div>
+        <Routes>
+          {/* Routes with the main layout */}
+          <Route element={<PageLayout />}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/servicios" element={<ServicesPage />} />
+            <Route path="/servicios/:slug" element={<ServiceDetailPage />} />
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/blog/:slug" element={<BlogPostPage />} />
+            <Route path="/especialistas" element={<SpecialistsPage />} />
+            <Route path="/especialistas/:slug" element={<AuthorPage />} />
+            <Route path="/contacto" element={<ContactPage />} />
+            <Route path="/aviso-legal" element={<LegalNoticePage />} />
+            <Route path="/politica-de-privacidad" element={<PrivacyPolicyPage />} />
+            <Route path="/politica-de-cookies" element={<CookiesPolicyPage />} />
+            <Route path="/mapa-web" element={<SitemapPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Route>
+          {/* Route without the layout */}
+          <Route path="/sitemap.xml" element={<SitemapXmlPage />} />
+        </Routes>
       </HashRouter>
   );
 };

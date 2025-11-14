@@ -1,11 +1,9 @@
-
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Label } from '../ui/Label';
 import { FormData } from '../../pages/ContactPage';
-import { verifyPatient } from '../../lib/data';
-import { IconLoader2, IconCircleCheck, IconAlertCircle } from '@tabler/icons-react';
 
 interface Step2PatientDataProps {
   onNext: () => void;
@@ -15,36 +13,36 @@ interface Step2PatientDataProps {
 }
 
 const Step2PatientData: React.FC<Step2PatientDataProps> = ({ onNext, onBack, updateFormData, formData }) => {
-  const [identifier, setIdentifier] = useState('');
-  const [verificationStatus, setVerificationStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [verifiedPatient, setVerifiedPatient] = useState<{name: string} | null>(null);
+  const [subStep, setSubStep] = useState(1); // 1 for patient, 2 for contact
+  const [direction, setDirection] = useState(1);
 
-  const handleVerification = async () => {
-    if (!identifier) return;
-    setVerificationStatus('loading');
-    const patient = await verifyPatient(identifier);
-    if (patient) {
-      setVerificationStatus('success');
-      setVerifiedPatient(patient);
-      updateFormData({ verifiedPatient: patient, name: patient.name, email: identifier.includes('@') ? identifier : '', phone: !identifier.includes('@') ? identifier : '' });
-    } else {
-      setVerificationStatus('error');
-      setVerifiedPatient(null);
-    }
+  const variants = {
+    enter: (direction: number) => ({ x: direction > 0 ? '50%' : '-50%', opacity: 0 }),
+    center: { x: 0, opacity: 1 },
+    exit: (direction: number) => ({ x: direction < 0 ? '50%' : '-50%', opacity: 0 }),
   };
 
-  const isNewPatientFormValid = formData.name && formData.email && formData.phone;
+  const handleSubStepNext = () => {
+    setDirection(1);
+    setSubStep(2);
+  };
+  const handleSubStepBack = () => {
+    setDirection(-1);
+    setSubStep(1);
+  };
 
-  return (
-    <div>
-      <h2 className="text-2xl font-bold mb-2 text-center text-foreground">
-        {formData.userType === 'new' ? 'Cuéntanos sobre ti' : 'Identifícate'}
-      </h2>
-      <p className="text-muted-foreground mb-8 text-center">
-        {formData.userType === 'new' ? 'Necesitamos algunos datos para crear tu ficha.' : 'Introduce tu email o teléfono para encontrarte.'}
-      </p>
+  const isSelfFormValid = formData.name && formData.email && formData.phone;
+  const isOtherPatientFormValid = formData.patientName && formData.patientDob && formData.relationship;
+  const isOtherContactFormValid = formData.name && formData.email && formData.phone;
+  const isNextDisabled = formData.appointmentFor === 'self'
+    ? !isSelfFormValid
+    : !(isOtherPatientFormValid && isOtherContactFormValid);
 
-      {formData.userType === 'new' ? (
+  if (formData.appointmentFor === 'self') {
+    return (
+      <div>
+        <h2 className="text-2xl font-bold mb-2 text-center text-foreground">Tus datos de contacto</h2>
+        <p className="text-muted-foreground mb-8 text-center">Necesitamos algunos datos para agendar tu cita.</p>
         <div className="space-y-4">
           <div>
             <Label htmlFor="name">Nombre Completo</Label>
@@ -58,61 +56,90 @@ const Step2PatientData: React.FC<Step2PatientDataProps> = ({ onNext, onBack, upd
             <Label htmlFor="phone">Teléfono Móvil</Label>
             <Input id="phone" type="tel" value={formData.phone} onChange={e => updateFormData({ phone: e.target.value })} placeholder="600 123 456" required />
           </div>
-          <div>
-            <Label htmlFor="referral">¿Cómo nos conociste? (Opcional)</Label>
-            <select
-                id="referral"
-                value={formData.referral}
-                onChange={e => updateFormData({ referral: e.target.value })}
-                className="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-                <option value="">Selecciona una opción</option>
-                <option value="recommendation">Recomendación</option>
-                <option value="social_media">Redes Sociales</option>
-                <option value="google">Búsqueda en Google</option>
-                <option value="other">Otro</option>
-            </select>
-          </div>
         </div>
-      ) : (
-        <div className="space-y-4">
-            <div>
-                <Label htmlFor="identifier">Email o Teléfono</Label>
-                <div className="flex gap-2">
-                    <Input id="identifier" value={identifier} onChange={e => setIdentifier(e.target.value)} placeholder="tu@email.com o 600 123 456" />
-                    <Button onClick={handleVerification} disabled={verificationStatus === 'loading'}>
-                        {verificationStatus === 'loading' ? <IconLoader2 className="animate-spin" /> : 'Verificar'}
-                    </Button>
-                </div>
-            </div>
-            {verificationStatus === 'success' && verifiedPatient && (
-                <div className="flex items-center gap-2 text-green-600 bg-green-50 p-3 rounded-md">
-                    <IconCircleCheck />
-                    <p>¡Hola, {verifiedPatient.name}! Bienvenida de nuevo.</p>
-                </div>
-            )}
-            {verificationStatus === 'error' && (
-                <div className="flex flex-col gap-2 text-red-600 bg-red-50 p-3 rounded-md">
-                    <div className="flex items-center gap-2">
-                        <IconAlertCircle />
-                        <p>No te hemos encontrado. ¿Los datos son correctos?</p>
-                    </div>
-                    <Button variant="link" className="justify-start p-0 h-auto" onClick={() => updateFormData({ userType: 'new' })}>
-                        Registrarme como nuevo paciente
-                    </Button>
-                </div>
-            )}
+        <div className="flex justify-between mt-8">
+          <Button variant="outline" onClick={onBack}>Atrás</Button>
+          <Button onClick={onNext} disabled={!isSelfFormValid}>Siguiente</Button>
         </div>
-      )}
-
-      <div className="flex justify-between mt-8">
-        <Button variant="outline" onClick={onBack}>Atrás</Button>
-        <Button onClick={onNext} disabled={
-            formData.userType === 'new' ? !isNewPatientFormValid : verificationStatus !== 'success'
-        }>Siguiente</Button>
       </div>
+    );
+  }
+
+  return (
+    <div className="relative overflow-hidden">
+        <AnimatePresence mode="wait" custom={direction}>
+            <motion.div
+                key={subStep}
+                custom={direction}
+                variants={variants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+            >
+                {subStep === 1 ? (
+                    <div>
+                        <h2 className="text-2xl font-bold mb-2 text-center text-foreground">Datos del Paciente (1/2)</h2>
+                        <p className="text-muted-foreground mb-8 text-center">Introduce la información de la persona que recibirá la atención.</p>
+                        <div className="space-y-4">
+                            <div>
+                                <Label htmlFor="patientName">Nombre Completo del Paciente</Label>
+                                <Input id="patientName" value={formData.patientName} onChange={e => updateFormData({ patientName: e.target.value })} placeholder="Ej: Juan Pérez" required />
+                            </div>
+                            <div>
+                                <Label htmlFor="patientDob">Fecha de Nacimiento</Label>
+                                <Input id="patientDob" type="date" value={formData.patientDob} onChange={e => updateFormData({ patientDob: e.target.value })} required />
+                            </div>
+                            <div>
+                                <Label htmlFor="relationship">Relación o Parentesco</Label>
+                                <select
+                                    id="relationship"
+                                    value={formData.relationship}
+                                    onChange={e => updateFormData({ relationship: e.target.value })}
+                                    className="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                >
+                                    <option value="">Selecciona una opción</option>
+                                    <option value="Hijo/a">Hijo/a</option>
+                                    <option value="Padre/Madre">Padre/Madre</option>
+                                    <option value="Cónyuge/Pareja">Cónyuge/Pareja</option>
+                                    <option value="Otro Familiar">Otro Familiar</option>
+                                    <option value="Tutor Legal">Tutor Legal</option>
+                                    <option value="Otro">Otro</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div className="flex justify-between mt-8">
+                            <Button variant="outline" onClick={onBack}>Atrás</Button>
+                            <Button onClick={handleSubStepNext} disabled={!isOtherPatientFormValid}>Siguiente</Button>
+                        </div>
+                    </div>
+                ) : (
+                    <div>
+                        <h2 className="text-2xl font-bold mb-2 text-center text-foreground">Tus Datos de Contacto (2/2)</h2>
+                        <p className="text-muted-foreground mb-8 text-center">Ahora, introduce tus datos como persona responsable de la cita.</p>
+                        <div className="space-y-4">
+                            <div>
+                                <Label htmlFor="contactName">Tu Nombre Completo</Label>
+                                <Input id="contactName" value={formData.name} onChange={e => updateFormData({ name: e.target.value })} placeholder="Ej: Ana García" required />
+                            </div>
+                            <div>
+                                <Label htmlFor="contactEmail">Tu Correo Electrónico</Label>
+                                <Input id="contactEmail" type="email" value={formData.email} onChange={e => updateFormData({ email: e.target.value })} placeholder="tu@email.com" required />
+                            </div>
+                            <div>
+                                <Label htmlFor="contactPhone">Tu Teléfono Móvil</Label>
+                                <Input id="contactPhone" type="tel" value={formData.phone} onChange={e => updateFormData({ phone: e.target.value })} placeholder="600 123 456" required />
+                            </div>
+                        </div>
+                        <div className="flex justify-between mt-8">
+                            <Button variant="outline" onClick={handleSubStepBack}>Atrás</Button>
+                            <Button onClick={onNext} disabled={isNextDisabled}>Siguiente</Button>
+                        </div>
+                    </div>
+                )}
+            </motion.div>
+        </AnimatePresence>
     </div>
   );
 };
-
 export default Step2PatientData;

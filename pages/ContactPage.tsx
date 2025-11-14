@@ -1,8 +1,7 @@
-
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-import Step1UserType from '../components/contact/Step1UserType';
+import Step1AppointmentFor from '../components/contact/Step1AppointmentFor';
 import Step2PatientData from '../components/contact/Step2PatientData';
 import Step3ServiceSelection from '../components/contact/Step3ServiceSelection';
 import Step4DateTimeSelection from '../components/contact/Step4DateTimeSelection';
@@ -10,15 +9,22 @@ import Step5Confirmation from '../components/contact/Step5Confirmation';
 import Step6ThankYou from '../components/contact/Step6ThankYou';
 import ProgressBar from '../components/contact/ProgressBar';
 
-export type UserType = 'new' | 'existing' | null;
+// FIX: Export UserType to resolve import error in Step1UserType.tsx.
+export type UserType = 'new' | 'existing';
 
 export interface FormData {
-  userType: UserType;
+  // FIX: Add userType property to FormData to resolve error in Step1UserType.tsx.
+  userType: UserType | null;
+  appointmentFor: 'self' | 'other' | null;
+  // Contact person's data
   name: string;
   email: string;
   phone: string;
-  referral?: string;
-  verifiedPatient?: { name: string };
+  // Patient's data (if different)
+  patientName: string;
+  patientDob: string;
+  relationship: string;
+  // Service data
   specialty: string;
   service: string;
   date: Date | null;
@@ -27,11 +33,13 @@ export interface FormData {
 
 const initialFormData: FormData = {
   userType: null,
+  appointmentFor: null,
   name: '',
   email: '',
   phone: '',
-  referral: '',
-  verifiedPatient: undefined,
+  patientName: '',
+  patientDob: '',
+  relationship: '',
   specialty: '',
   service: '',
   date: null,
@@ -39,8 +47,8 @@ const initialFormData: FormData = {
 };
 
 const steps = [
-  "Tipo de Cita",
-  "Tus Datos",
+  "Inicio",
+  "Datos",
   "Servicio",
   "Fecha y Hora",
   "Confirmación",
@@ -101,7 +109,7 @@ const ContactPage: React.FC = () => {
       
     switch (currentStep) {
       case 1:
-        return <Step1UserType onNext={handleNext} updateFormData={updateFormData} />;
+        return <Step1AppointmentFor onNext={handleNext} updateFormData={updateFormData} />;
       case 2:
         return <Step2PatientData onNext={handleNext} onBack={handlePrev} updateFormData={updateFormData} formData={formData} />;
       case 3:
