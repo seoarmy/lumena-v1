@@ -65,7 +65,7 @@ export const FaqSection: React.FC = () => {
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
             />
             <div className="text-center">
-                <h2 className="text-3xl md:text-4xl font-bold">Preguntas Frecuentes</h2>
+                <h3 className="text-3xl md:text-4xl font-bold">Preguntas Frecuentes</h3>
                 <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
                     Aquí tienes algunas respuestas a las preguntas más comunes. Si no encuentras lo que buscas, no dudes en contactarnos.
                 </p>

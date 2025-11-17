@@ -13,7 +13,7 @@ const FeaturedServiceCard: React.FC = () => {
         </div>
         <p className="font-semibold uppercase tracking-wider text-sm mb-2 text-secondary-foreground/80">Servicio Destacado del Mes</p>
         
-        <h3 className="text-2xl font-bold mb-1">Limpieza Dental</h3>
+        <h2 className="text-2xl font-bold mb-1">Limpieza Dental</h2>
         
         <p className="text-5xl font-extrabold mb-4 flex items-center">
             69<span className="text-3xl font-bold -translate-y-1">€</span>

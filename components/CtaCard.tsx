@@ -32,9 +32,9 @@ const CtaCard: React.FC<CtaCardProps> = ({
             />
           </div>
           <div className="md:w-3/5">
-            <h3 className="text-2xl lg:text-3xl font-bold text-foreground">
+            <h2 className="text-2xl lg:text-3xl font-bold text-foreground">
               {headline}
-            </h3>
+            </h2>
             <p className="mt-3 text-base text-muted-foreground">
               {description}
             </p>

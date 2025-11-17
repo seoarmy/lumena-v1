@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card } from './ui/Card';
@@ -29,7 +28,7 @@ export const ClientTypeSection: React.FC = () => {
         <section className="bg-accent/30 rounded-2xl py-16 md:py-24">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold text-foreground">¿Cómo podemos ayudarte hoy?</h2>
+                    <h3 className="text-3xl md:text-4xl font-bold text-foreground">¿Cómo podemos ayudarte hoy?</h3>
                     <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
                         Estamos aquí para ayudarte, ya sea para empezar tu camino hacia el bienestar o para continuar con tu cuidado.
                     </p>
@@ -37,11 +36,11 @@ export const ClientTypeSection: React.FC = () => {
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
                     {/* New Patient Card */}
-                    <Card className="text-center flex flex-col items-center p-8 border-primary/20 shadow-xl shadow-primary/5 hover:border-primary/40 transition-all duration-300">
+                    <Card className="text-center flex flex-col items-center p-8 border-primary/20 shadow-xl shadow-primary/20 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/40 transition-all duration-300 transform hover:-translate-y-1">
                         <div className="bg-primary/10 p-4 rounded-full mb-4">
                             <IconUserPlus className="h-10 w-10 text-primary" />
                         </div>
-                        <h3 className="text-2xl font-bold text-primary mb-2">Soy nuevo paciente</h3>
+                        <h4 className="text-2xl font-bold text-primary mb-2">Soy nuevo paciente</h4>
                         <p className="text-muted-foreground mb-6 flex-grow">
                             Agenda tu primera consulta y descubre cómo nuestro equipo puede ayudarte a alcanzar tus objetivos de salud.
                         </p>
@@ -54,11 +53,11 @@ export const ClientTypeSection: React.FC = () => {
                     </Card>
 
                     {/* Existing Patient Card */}
-                    <Card className="text-center flex flex-col items-center p-8 border-border/60 shadow-lg hover:shadow-xl transition-all duration-300">
+                    <Card className="text-center flex flex-col items-center p-8 border-border/60 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
                          <div className="bg-muted p-4 rounded-full mb-4">
                             <IconUserCheck className="h-10 w-10 text-muted-foreground" />
                         </div>
-                        <h3 className="text-2xl font-bold text-foreground mb-2">Ya soy paciente</h3>
+                        <h4 className="text-2xl font-bold text-foreground mb-2">Ya soy paciente</h4>
                         <p className="text-muted-foreground mb-6 flex-grow">
                             Si ya eres parte de nuestra familia, agenda tu próxima cita de seguimiento o consulta aquí.
                         </p>

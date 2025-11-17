@@ -70,7 +70,7 @@ export const ExpertsSection: React.FC = () => {
         <section>
             <div className="text-center md:text-left md:flex md:justify-between md:items-center mb-12">
                 <div>
-                    <h2 className="text-3xl md:text-4xl font-bold">Conoce a Nuestros Especialistas</h2>
+                    <h3 className="text-3xl md:text-4xl font-bold">Conoce a Nuestros Especialistas</h3>
                     <p className="mt-4 max-w-2xl mx-auto md:mx-0 text-lg text-muted-foreground">
                         Profesionales apasionados y dedicados a tu bienestar.
                     </p>

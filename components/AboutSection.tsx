@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 const AboutSection: React.FC = () => {
@@ -11,9 +10,9 @@ const AboutSection: React.FC = () => {
               Nuestra Clínica
             </span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground tracking-tight">
+          <h3 className="text-4xl md:text-5xl font-bold text-foreground tracking-tight">
             El comienzo de un nuevo bienestar
-          </h2>
+          </h3>
           <p className="mt-6 text-lg text-muted-foreground">
             En LUMENA, creemos que la salud es el pilar de una vida plena. Hemos creado un espacio donde la tecnología de vanguardia y un trato humano se unen para ofrecerte una atención médica integral y personalizada.
           </p>

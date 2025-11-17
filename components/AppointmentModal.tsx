@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from './ui/Button';
 import { Input } from './ui/Input';
@@ -94,7 +93,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ isOpen, onClose }) 
             <IconX className="h-5 w-5" />
             <span className="sr-only">Cerrar</span>
           </Button>
-          <h2 className="text-2xl font-bold mb-6 text-primary">Pide tu Cita</h2>
+          <h3 className="text-2xl font-bold mb-6 text-primary">Pide tu Cita</h3>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <Label htmlFor="modal-name">Nombre Completo</Label>

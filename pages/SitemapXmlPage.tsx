@@ -45,29 +45,29 @@ const SitemapXmlPage: React.FC = () => {
 
                 const staticPages = [
                     { loc: '/', priority: '1.0', changefreq: 'daily', lastmod: today },
-                    { loc: '/servicios', priority: '0.7', changefreq: 'weekly', lastmod: today },
-                    { loc: '/blog', priority: '0.7', changefreq: 'weekly', lastmod: today },
-                    { loc: '/contacto', priority: '0.5', changefreq: 'monthly', lastmod: today },
-                    { loc: '/especialistas', priority: '0.7', changefreq: 'monthly', lastmod: today },
-                    { loc: '/mapa-web', priority: '0.3', changefreq: 'yearly', lastmod: today },
+                    { loc: '/#/servicios', priority: '0.7', changefreq: 'weekly', lastmod: today },
+                    { loc: '/#/blog', priority: '0.7', changefreq: 'weekly', lastmod: today },
+                    { loc: '/#/contacto', priority: '0.5', changefreq: 'monthly', lastmod: today },
+                    { loc: '/#/especialistas', priority: '0.7', changefreq: 'monthly', lastmod: today },
+                    { loc: '/#/mapa-web', priority: '0.3', changefreq: 'yearly', lastmod: today },
                 ];
 
                 const serviceUrls = services.map(service => ({
-                    loc: `/servicios/${service.slug}`,
+                    loc: `/#/servicios/${service.slug}`,
                     priority: '0.9',
                     changefreq: 'monthly',
                     lastmod: today,
                 }));
 
                 const postUrls = posts.map(post => ({
-                    loc: `/blog/${post.slug}`,
+                    loc: `/#/blog/${post.slug}`,
                     priority: '0.6',
                     changefreq: 'monthly',
                     lastmod: formatDate(parseSpanishDate(post.date)),
                 }));
 
                 const authorUrls = authors.map(author => ({
-                    loc: `/especialistas/${author.slug}`,
+                    loc: `/#/especialistas/${author.slug}`,
                     priority: '0.8',
                     changefreq: 'monthly',
                     lastmod: today,
@@ -77,7 +77,7 @@ const SitemapXmlPage: React.FC = () => {
 
                 const urlEntries = allUrls.map(url => `
   <url>
-    <loc>${BASE_URL}/#${url.loc === '/' ? '' : url.loc}</loc>
+    <loc>${BASE_URL}${url.loc}</loc>
     <lastmod>${url.lastmod}</lastmod>
     <changefreq>${url.changefreq}</changefreq>
     <priority>${url.priority}</priority>

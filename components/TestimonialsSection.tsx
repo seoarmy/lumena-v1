@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { getTestimonials } from '../lib/data';
 import { Testimonial } from '../types';
@@ -50,7 +49,7 @@ export const TestimonialsSection: React.FC = () => {
     <section className="bg-accent/30">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
             <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold">Lo que dicen nuestros pacientes</h2>
+            <h3 className="text-3xl md:text-4xl font-bold">Lo que dicen nuestros pacientes</h3>
             <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
                 Historias reales de quienes han confiado en nosotros para su cuidado.
             </p>
@@ -92,7 +91,7 @@ export const TestimonialsSection: React.FC = () => {
                         />
                     </div>
                     <div className="w-full md:w-3/5 text-center md:text-left">
-                        <h3 className="text-2xl font-bold text-foreground">{testimonial.name}</h3>
+                        <h4 className="text-2xl font-bold text-foreground">{testimonial.name}</h4>
                         <p className="text-primary font-semibold mb-4">{testimonial.title}</p>
                         <blockquote className="text-muted-foreground">
                         <p className="relative before:content-['“'] before:absolute before:-left-4 before:top-0 before:text-4xl before:text-primary/50 before:font-serif after:content-['”'] after:absolute after:text-4xl after:text-primary/50 after:font-serif">

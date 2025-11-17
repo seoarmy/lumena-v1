@@ -56,7 +56,7 @@ const GalleryCard: React.FC<{ item: GalleryItem }> = ({ item }) => (
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
         <div className="absolute bottom-0 left-0 p-4 text-white">
-            <h3 className="text-lg font-bold">{item.title}</h3>
+            <h4 className="text-lg font-bold">{item.title}</h4>
             <p className="text-sm text-white/80">{item.description}</p>
         </div>
     </div>
@@ -109,9 +109,9 @@ export function ServiceGallerySection() {
     return (
         <section className="py-16 md:py-24 bg-background">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center mb-12">
-                <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+                <h3 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
                     Un Vistazo a Nuestras Instalaciones
-                </h2>
+                </h3>
                 <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
                     Explora los espacios modernos y acogedores donde cuidamos de tu salud y bienestar.
                 </p>

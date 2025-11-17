@@ -21,7 +21,7 @@ const ExpertCard: React.FC<{ expert: Author }> = ({ expert }) => {
         </div>
       </div>
       <div className="mt-12 text-center">
-        <h3 className="text-xl font-bold text-foreground">{expert.name}</h3>
+        <p className="text-xl font-bold text-foreground">{expert.name}</p>
         <p className="text-muted-foreground">{expert.role}</p>
       </div>
     </Link>

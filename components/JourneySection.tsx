@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { cn } from '../lib/utils';
 import { IconCheck } from '@tabler/icons-react';
@@ -24,7 +23,7 @@ export const JourneySection: React.FC = () => {
   return (
     <section>
       <div className="text-center mb-12">
-        <h2 className="text-3xl md:text-4xl font-bold">Tu Viaje Empieza Aquí</h2>
+        <h3 className="text-3xl md:text-4xl font-bold">Tu Viaje Empieza Aquí</h3>
         <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
           Te acompañamos en cada paso de tu camino hacia el bienestar.
         </p>
@@ -49,14 +48,14 @@ export const JourneySection: React.FC = () => {
                   {isCompleted || isActive ? <IconCheck size={20} /> : index + 1}
                 </div>
                 <div>
-                  <h3
+                  <h4
                     className={cn(
                       "text-xl font-semibold mb-1 transition-colors duration-300",
                       isActive ? "text-foreground" : "text-muted-foreground"
                     )}
                   >
                     {step.title}
-                  </h3>
+                  </h4>
                   <p className="text-muted-foreground/80">
                     {step.description}
                   </p>

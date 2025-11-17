@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { cn } from '../lib/utils';
@@ -12,7 +11,7 @@ const Logo: React.FC<LogoProps> = ({ className, variant = 'dark' }) => {
   const textColor = variant === 'dark' ? 'text-primary' : 'text-primary-foreground';
   
   return (
-    <Link to="/" className={cn("flex flex-col items-center leading-none group", className)}>
+    <Link to="/" aria-label="Lumena | Clinica de Salud - Volver a Inicio" className={cn("flex flex-col items-center leading-none group", className)}>
       <span 
         style={{ letterSpacing: '0.2em' }} 
         className={`block text-3xl font-light tracking-widest uppercase ${textColor}`}
