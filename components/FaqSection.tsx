@@ -72,7 +72,7 @@ export const FaqSection: React.FC = () => {
             </div>
             
             <div className="mt-12 max-w-3xl mx-auto bg-foreground rounded-xl shadow-2xl overflow-hidden">
-                <Accordion items={faqData} />
+                <Accordion items={faqData} variant="dark" />
             </div>
         </section>
     );

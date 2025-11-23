@@ -1,5 +1,12 @@
 
-import { Service, Post, Expert, Testimonial, Author } from '../types';
+import React from 'react';
+import { 
+  // FIX: Replaced non-existent `IconShine` with `IconStar`.
+  IconDental, IconTool, IconStar, IconBone, IconSparkles, IconHealthRecognition,
+  IconRun, IconMassage, IconBrain, IconActivityHeartbeat,
+  IconStethoscope, IconDna, IconMicroscope, IconBabyCarriage
+} from '@tabler/icons-react';
+import { Service, Post, Expert, Testimonial, Author, ServiceCategoryDetail, SpecificService } from '../types';
 
 // --- AUTHORS DATA ---
 const authors: Author[] = [
@@ -95,57 +102,62 @@ Actualmente, además de su rol como Fisioterapeuta Jefe en LUMENA, Alejandro col
 const services: Service[] = [
   {
     slug: 'odontologia',
-    title: 'Odontología General y Estética',
-    shortDescription: 'Salud bucal completa, desde revisiones hasta diseños de sonrisa.',
-    longDescription: 'Ofrecemos un servicio odontológico integral que cubre todas tus necesidades, desde limpiezas y empastes hasta tratamientos estéticos avanzados como blanqueamiento dental y carillas. Nuestro objetivo es asegurar tu salud bucal y darte una sonrisa de la que te sientas orgulloso.',
-    imageUrl: 'https://picsum.photos/seed/dentist/600/400',
+    title: 'Odontología',
+    shortDescription: 'Cuidado dental integral para una sonrisa sana y radiante.',
+    longDescription: 'Desde revisiones y limpiezas hasta implantes y ortodoncia. Nuestro equipo de odontólogos utiliza la última tecnología para garantizar tu salud bucodental y la estética de tu sonrisa.',
+    imageUrl: 'https://picsum.photos/seed/dentistry/600/400',
   },
   {
     slug: 'ginecologia',
-    title: 'Ginecología y Obstetricia',
-    shortDescription: 'Cuidado integral de la salud femenina en todas las etapas de la vida.',
-    longDescription: 'Acompañamos a la mujer en todas las fases de su vida, ofreciendo desde revisiones ginecológicas rutinarias y planificación familiar hasta seguimiento del embarazo y atención en la menopausia. Nuestro equipo se enfoca en un cuidado cercano y respetuoso.',
-    imageUrl: 'https://picsum.photos/seed/gynecology/600/400',
+    title: 'Ginecología',
+    shortDescription: 'Salud y bienestar para la mujer en cada etapa de su vida.',
+    longDescription: 'Ofrecemos un cuidado ginecológico completo, incluyendo revisiones anuales, seguimiento de embarazo, planificación familiar y manejo de la menopausia, con un enfoque cercano y profesional.',
+    imageUrl: 'https://picsum.photos/seed/gyn/600/400',
+  },
+  {
+    slug: 'fisioterapia',
+    title: 'Fisioterapia',
+    shortDescription: 'Recuperación funcional, alivio del dolor y prevención de lesiones.',
+    longDescription: 'Nuestros fisioterapeutas están especializados en terapia manual, rehabilitación deportiva y tratamiento de dolencias musculoesqueléticas para ayudarte a recuperar la movilidad y vivir sin dolor.',
+    imageUrl: 'https://picsum.photos/seed/physiotherapy/600/400',
   },
   {
     slug: 'psicologia',
-    title: 'Psicología Clínica',
-    shortDescription: 'Apoyo para tu bienestar emocional y salud mental.',
-    longDescription: 'Ofrecemos terapia individual para adultos y adolescentes, abordando problemas como la ansiedad, la depresión, el estrés y las dificultades relacionales. Nuestro enfoque es crear un espacio seguro y de confianza para ayudarte a encontrar el equilibrio.',
+    title: 'Psicología',
+    shortDescription: 'Apoyo profesional para tu bienestar emocional y salud mental.',
+    longDescription: 'Te ofrecemos un espacio seguro y confidencial para abordar la ansiedad, el estrés, la depresión y otros desafíos emocionales. Terapia individual para adultos y adolescentes.',
     imageUrl: 'https://picsum.photos/seed/psychology/600/400',
   },
   {
-    slug: 'fisioterapia-deportiva',
-    title: 'Fisioterapia Deportiva',
-    shortDescription: 'Recuperación y prevención de lesiones para atletas de todos los niveles.',
-    longDescription: 'Nuestra fisioterapia deportiva está diseñada para ayudar a los atletas a recuperarse de lesiones, mejorar el rendimiento y prevenir futuras dolencias. Utilizamos técnicas avanzadas de terapia manual, ejercicios de rehabilitación y tecnología de vanguardia para asegurar una vuelta segura y rápida a la actividad física. Cada plan de tratamiento es personalizado para satisfacer las necesidades específicas del deportista y su disciplina.',
-    imageUrl: 'https://picsum.photos/seed/sports/600/400',
-    relatedServices: ['terapia-manual', 'rehabilitacion-neurologica'],
+    slug: 'logopedia',
+    title: 'Logopedia',
+    shortDescription: 'Tratamiento de trastornos del habla, lenguaje y comunicación.',
+    longDescription: 'Ayudamos a niños y adultos a superar dificultades de comunicación, habla, voz y deglución. Nuestro objetivo es mejorar la calidad de vida a través de una comunicación efectiva.',
+    imageUrl: 'https://picsum.photos/seed/speech/600/400',
   },
   {
-    slug: 'terapia-manual',
-    title: 'Terapia Manual Ortopédica',
-    shortDescription: 'Tratamiento especializado para dolencias musculoesqueléticas.',
-    longDescription: 'La terapia manual ortopédica se enfoca en el diagnóstico y tratamiento de afecciones neuromusculoesqueléticas. A través de movilizaciones articulares, manipulaciones y técnicas de tejido blando, nuestros especialistas alivian el dolor, restauran la movilidad y mejoran la función. Es un tratamiento efectivo para problemas de espalda, cuello, articulaciones y más.',
-    imageUrl: 'https://picsum.photos/seed/manual/600/400',
-    relatedServices: ['fisioterapia-deportiva', 'rehabilitacion-postquirurgica'],
+    slug: 'atencion-primaria',
+    title: 'Atención Primaria',
+    shortDescription: 'Tu médico de cabecera para un cuidado continuo y preventivo.',
+    longDescription: 'Ofrecemos un servicio de medicina general para el diagnóstico, tratamiento y seguimiento de enfermedades comunes, así como para la promoción de la salud y la prevención.',
+    imageUrl: 'https://picsum.photos/seed/primarycare/600/400',
   },
   {
-    slug: 'rehabilitacion-neurologica',
-    title: 'Rehabilitación Neurológica',
-    shortDescription: 'Apoyo a pacientes con condiciones neurológicas para mejorar su calidad de vida.',
-    longDescription: 'Ofrecemos programas de rehabilitación para pacientes que han sufrido un accidente cerebrovascular, lesión cerebral traumática, esclerosis múltiple, Parkinson y otras condiciones neurológicas. Nuestro equipo multidisciplinario trabaja para maximizar la independencia funcional, mejorar la movilidad, el equilibrio y las habilidades cognitivas.',
-    imageUrl: 'https://picsum.photos/seed/neuro/600/400',
+    slug: 'nutricion',
+    title: 'Nutrición',
+    shortDescription: 'Planes de alimentación personalizados para tus objetivos de salud.',
+    longDescription: 'Nuestros nutricionistas te guiarán para alcanzar tus metas, ya sea pérdida de peso, mejora del rendimiento deportivo o manejo de condiciones de salud a través de la alimentación.',
+    imageUrl: 'https://picsum.photos/seed/nutrition/600/400',
   },
   {
-    slug: 'rehabilitacion-postquirurgica',
-    title: 'Rehabilitación Postquirúrgica',
-    shortDescription: 'Programas personalizados para una recuperación óptima tras una cirugía.',
-    longDescription: 'Una rehabilitación adecuada es crucial después de una cirugía ortopédica. Nuestros fisioterapeutas colaboran estrechamente con su cirujano para desarrollar un plan de recuperación que le ayude a recuperar fuerza, movilidad y función de manera segura y eficaz, minimizando el dolor y el riesgo de complicaciones.',
-    imageUrl: 'https://picsum.photos/seed/surgery/600/400',
-    relatedServices: ['terapia-manual'],
+    slug: 'entrenamiento-personalizado',
+    title: 'Entrenamiento Personalizado',
+    shortDescription: 'Alcanza tu máximo potencial físico con un plan a tu medida.',
+    longDescription: 'Diseñamos programas de entrenamiento adaptados a tus capacidades y objetivos, supervisados por profesionales para garantizar resultados seguros y eficaces.',
+    imageUrl: 'https://picsum.photos/seed/training/600/400',
   },
 ];
+
 
 // --- BLOG POSTS DATA ---
 const posts: Omit<Post, 'author' | 'readingTime'>[] = [
@@ -272,6 +284,132 @@ Realiza estos ejercicios con suavidad y sin causar dolor. Si el dolor persiste, 
 
 export const BLOG_CATEGORIES = ['Odontología', 'Ginecología', 'Psicología', 'Fisioterapia'];
 
+// --- NEW DETAILED SERVICES DATA ---
+
+// FIX: Converted all icon JSX to React.createElement to prevent parsing errors in .ts files.
+// This resolves a large number of errors related to TypeScript interpreting JSX as type assertions.
+export const DETAILED_SERVICES: ServiceCategoryDetail[] = [
+  {
+    slug: 'odontologia',
+    name: 'Odontología',
+    description: 'Ofrecemos soluciones dentales completas para que tu sonrisa se mantenga sana y siempre radiante.',
+    services: [
+      {
+        slug: 'limpieza-dental-pro',
+        icon: React.createElement(IconDental, { size: 32 }),
+        title: 'Limpieza Dental Pro',
+        description: 'Elimina el sarro y la placa para una boca sana y un aliento fresco.',
+        price: 69,
+      },
+      {
+        slug: 'blanqueamiento-dental',
+        icon: React.createElement(IconSparkles, { size: 32 }),
+        title: 'Blanqueamiento Dental',
+        description: 'Consigue una sonrisa visiblemente más blanca y brillante con nuestro tratamiento profesional y seguro.',
+        price: 250,
+      },
+      {
+        slug: 'empastes',
+        icon: React.createElement(IconTool, { size: 32 }),
+        title: 'Empastes (Obturación)',
+        description: 'Restauramos tus dientes afectados por caries con materiales estéticos y de alta durabilidad.',
+        price: 80,
+      },
+      {
+        slug: 'ortodoncia-invisible',
+        icon: React.createElement(IconHealthRecognition, { size: 32 }),
+        title: 'Ortodoncia Invisible',
+        description: 'Alinea tu sonrisa de forma discreta y cómoda con la tecnología de alineadores transparentes.',
+        price: 1800,
+      },
+      {
+        slug: 'implantes-dentales',
+        icon: React.createElement(IconBone, { size: 32 }),
+        title: 'Implantes Dentales',
+        description: 'Recupera la función y estética de tus dientes perdidos con soluciones permanentes y naturales.',
+        price: 1200,
+      },
+      {
+        slug: 'carillas-esteticas',
+        icon: React.createElement(IconStar, { size: 32 }),
+        title: 'Carillas Estéticas',
+        description: 'Transforma la apariencia de tu sonrisa corrigiendo forma, color y posición de los dientes.',
+        price: 450,
+      }
+    ]
+  },
+  {
+    slug: 'fisioterapia',
+    name: 'Fisioterapia',
+    description: 'Nuestros expertos te ayudarán a recuperar la movilidad, aliviar el dolor y prevenir futuras lesiones.',
+    services: [
+      {
+        slug: 'fisioterapia-deportiva',
+        icon: React.createElement(IconRun, { size: 32 }),
+        title: 'Fisioterapia Deportiva',
+        description: 'Tratamiento y prevención de lesiones en atletas para optimizar el rendimiento y acelerar recuperación.',
+        price: 55,
+      },
+      {
+        slug: 'terapia-manual',
+        icon: React.createElement(IconMassage, { size: 32 }),
+        title: 'Terapia Manual',
+        description: 'Técnicas manuales especializadas para aliviar el dolor muscular y mejorar la movilidad articular.',
+        price: 50,
+      },
+      {
+        slug: 'rehabilitacion-neurologica',
+        icon: React.createElement(IconBrain, { size: 32 }),
+        title: 'Rehabilitación Neurológica',
+        description: 'Ayudamos a pacientes con afecciones neurológicas a recuperar la máxima funcionalidad y autonomía posible.',
+        price: 60,
+      },
+      {
+        slug: 'readaptacion-postquirurgica',
+        icon: React.createElement(IconActivityHeartbeat, { size: 32 }),
+        title: 'Readaptación Postquirúrgica',
+        description: 'Programa personalizado para una recuperación segura y eficaz después de una intervención quirúrgica.',
+        price: 55,
+      }
+    ]
+  },
+  {
+    slug: 'ginecologia',
+    name: 'Ginecología',
+    description: 'Cuidamos de la salud femenina en todas las etapas con un enfoque profesional, cercano y empático.',
+    services: [
+      {
+        slug: 'revision-ginecologica',
+        icon: React.createElement(IconStethoscope, { size: 32 }),
+        title: 'Revisión Ginecológica',
+        description: 'Chequeo anual completo para la prevención y detección precoz de patologías ginecológicas.',
+        price: 120,
+      },
+      {
+        slug: 'citologia',
+        icon: React.createElement(IconDna, { size: 32 }),
+        title: 'Citología (Papanicolau)',
+        description: 'Prueba esencial para la detección temprana del cáncer de cuello uterino y otras anomalías.',
+        price: 50,
+      },
+      {
+        slug: 'colposcopia',
+        icon: React.createElement(IconMicroscope, { size: 32 }),
+        title: 'Colposcopia',
+        description: 'Examen detallado del cuello uterino para evaluar resultados anormales de la citología.',
+        price: 90,
+      },
+      {
+        slug: 'seguimiento-embarazo',
+        icon: React.createElement(IconBabyCarriage, { size: 32 }),
+        title: 'Seguimiento de Embarazo',
+        description: 'Acompañamiento médico completo para asegurar tu bienestar y el de tu bebé durante la gestación.',
+        price: 100,
+      }
+    ]
+  }
+];
+
 const experts: Expert[] = [
   {
     name: 'M Rongila Rongs',
@@ -373,6 +511,46 @@ export const serviceSpecialties = [
       { name: "Rehabilitación Neurológica" },
       { name: "Rehabilitación Postquirúrgica" },
     ]
+  },
+  {
+    name: "Logopedia",
+    slug: "logopedia",
+    services: [
+      { name: "Evaluación Inicial" },
+      { name: "Trastornos del Habla (Articulación)" },
+      { name: "Retraso del Lenguaje" },
+      { name: "Terapia Miofuncional" },
+    ]
+  },
+  {
+    name: "Atención Primaria",
+    slug: "atencion-primaria",
+    services: [
+      { name: "Consulta Medicina General" },
+      { name: "Revisión / Chequeo" },
+      { name: "Control de Tensión" },
+      { name: "Recetas Médicas" },
+    ]
+  },
+  {
+    name: "Nutrición",
+    slug: "nutricion",
+    services: [
+      { name: "Primera Consulta Nutricional" },
+      { name: "Plan de Pérdida de Peso" },
+      { name: "Nutrición Deportiva" },
+      { name: "Dietoterapia" },
+    ]
+  },
+  {
+    name: "Entrenamiento Personalizado",
+    slug: "entrenamiento-personalizado",
+    services: [
+      { name: "Sesión de Valoración Inicial" },
+      { name: "Entrenamiento Individual" },
+      { name: "Planificación de Entrenamiento" },
+      { name: "Readaptación de Lesiones" },
+    ]
   }
 ];
 
@@ -432,6 +610,28 @@ export const getServiceBySlug = async (slug: string): Promise<Service | undefine
   await sleep(200);
   return services.find(service => service.slug === slug);
 };
+
+export const getSpecificServiceData = async (categorySlug: string, serviceSlug: string): Promise<{ category: ServiceCategoryDetail, service: SpecificService, doctor: Author } | null> => {
+  await sleep(200);
+  const category = DETAILED_SERVICES.find(c => c.slug === categorySlug);
+  if (!category) return null;
+  
+  const service = category.services.find(s => s.slug === serviceSlug);
+  if (!service) return null;
+
+  // Mock finding a relevant doctor based on category
+  // In a real app, this would be a relation in the DB
+  let doctorSlug = '';
+  switch(categorySlug) {
+      case 'odontologia': doctorSlug = 'dr-carlos-mendoza'; break;
+      case 'ginecologia': doctorSlug = 'dra-laura-fernandez'; break;
+      case 'fisioterapia': doctorSlug = 'dr-alejandro-vargas'; break;
+      default: doctorSlug = 'lic-ana-torres';
+  }
+  const doctor = authors.find(a => a.slug === doctorSlug) || authors[0];
+
+  return { category, service, doctor };
+}
 
 export const getPosts = async (): Promise<Post[]> => {
   await sleep(200);

@@ -7,14 +7,23 @@ interface AccordionItemProps {
   children: React.ReactNode;
   isOpen: boolean;
   onClick: () => void;
+  variant: 'default' | 'dark';
 }
 
-const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, isOpen, onClick }) => {
+const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, isOpen, onClick, variant }) => {
   return (
-    <div className="border-b border-background/20 last:border-b-0">
+    <div className={cn(
+        "border-b last:border-b-0", 
+        variant === 'dark' ? "border-background/20" : "border-border"
+    )}>
       <button
         onClick={onClick}
-        className="flex justify-between items-center w-full py-5 px-4 md:px-6 text-left text-base font-medium text-background/90 hover:bg-white/5 transition-colors"
+        className={cn(
+            "flex justify-between items-center w-full py-5 px-4 md:px-6 text-left text-base font-medium transition-colors",
+            variant === 'dark' 
+                ? "text-background/90 hover:bg-white/5" 
+                : "text-foreground hover:bg-muted/30"
+        )}
         aria-expanded={isOpen}
       >
         <h4 className="pr-4">{title}</h4>
@@ -29,7 +38,10 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, isOpen, 
         )}
       >
         <div className="overflow-hidden">
-          <div className="pb-5 px-4 md:px-6 text-background/70">
+          <div className={cn(
+              "pb-5 px-4 md:px-6",
+              variant === 'dark' ? "text-background/70" : "text-muted-foreground"
+          )}>
             <p>{children}</p>
           </div>
         </div>
@@ -43,10 +55,11 @@ interface AccordionProps {
     title: string;
     content: string;
   }[];
+  variant?: 'default' | 'dark';
 }
 
-const Accordion: React.FC<AccordionProps> = ({ items }) => {
-  const [openIndex, setOpenIndex] = useState<number | null>(2);
+const Accordion: React.FC<AccordionProps> = ({ items, variant = 'default' }) => {
+  const [openIndex, setOpenIndex] = useState<number | null>(0); // Default open first item
 
   const handleClick = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -60,6 +73,7 @@ const Accordion: React.FC<AccordionProps> = ({ items }) => {
           title={item.title}
           isOpen={openIndex === index}
           onClick={() => handleClick(index)}
+          variant={variant}
         >
           {item.content}
         </AccordionItem>

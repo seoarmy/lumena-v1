@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { HashRouter, Routes, Route, Link, useLocation, Outlet } from 'react-router-dom';
 import Header from './components/layout/Header';
@@ -5,6 +6,7 @@ import Footer from './components/layout/Footer';
 import HomePage from './pages/HomePage';
 import ServicesPage from './pages/ServicesPage';
 import ServiceDetailPage from './pages/ServiceDetailPage';
+import SpecificServicePage from './pages/SpecificServicePage';
 import BlogPage from './pages/BlogPage';
 import BlogPostPage from './pages/BlogPostPage';
 import AuthorPage from './pages/AuthorPage';
@@ -63,6 +65,7 @@ const App: React.FC = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/servicios" element={<ServicesPage />} />
             <Route path="/servicios/:slug" element={<ServiceDetailPage />} />
+            <Route path="/servicios/:categorySlug/:serviceSlug" element={<SpecificServicePage />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:slug" element={<BlogPostPage />} />
             <Route path="/especialistas" element={<SpecialistsPage />} />

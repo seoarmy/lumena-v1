@@ -1,4 +1,6 @@
 
+import React from 'react';
+
 export interface Service {
   slug: string;
   title: string;
@@ -64,4 +66,21 @@ export interface Testimonial {
   title: string;
   quote: string;
   imageUrl: string;
+}
+
+// --- NEW INTERFACES FOR DETAILED SERVICES ---
+
+export interface SpecificService {
+  slug: string; // Added slug for routing
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  price: number;
+}
+
+export interface ServiceCategoryDetail {
+  slug: string;
+  name: string;
+  description: string;
+  services: SpecificService[];
 }

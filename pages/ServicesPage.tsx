@@ -1,9 +1,10 @@
 
 import React, { useState, useEffect } from 'react';
-import { getServices } from '../lib/data';
+import { getServices, DETAILED_SERVICES } from '../lib/data';
 import { Service } from '../types';
 import ServiceSlider from '../components/ServiceSlider';
 import AboutSection from '../components/AboutSection';
+import ServiceGrid from '../components/ServiceGrid';
 
 const ServicesPage: React.FC = () => {
   const [services, setServices] = useState<Service[]>([]);
@@ -50,6 +51,18 @@ const ServicesPage: React.FC = () => {
       </section>
 
       <AboutSection />
+
+      {/* Detailed Services Lists */}
+      <div className="space-y-0">
+          {DETAILED_SERVICES.map((category, index) => (
+              <div key={category.slug} className="relative w-screen left-1/2 -ml-[50vw]">
+                <ServiceGrid 
+                  category={category} 
+                  className={index % 2 === 0 ? "bg-accent/30" : "bg-background"} 
+                />
+              </div>
+          ))}
+      </div>
 
     </div>
   );

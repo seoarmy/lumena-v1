@@ -1,8 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getServiceBySlug, getServices } from '../lib/data';
-import { Service } from '../types';
+import { getServiceBySlug, getServices, DETAILED_SERVICES } from '../lib/data';
+import { Service, ServiceCategoryDetail } from '../types';
 import { Button } from '../components/ui/Button';
 import { ClientTypeSection } from '../components/ClientTypeSection';
 import { FeaturesSection } from '../components/FeaturesSection';
@@ -10,11 +10,13 @@ import { JourneySection } from '../components/JourneySection';
 import { TestimonialsSection } from '../components/TestimonialsSection';
 import { ServiceGallerySection } from '../components/ServiceGallerySection';
 import { FaqSection } from '../components/FaqSection';
+import ServiceGrid from '../components/ServiceGrid';
 
 const ServiceDetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const [service, setService] = useState<Service | null>(null);
   const [relatedServices, setRelatedServices] = useState<Service[]>([]);
+  const [detailedService, setDetailedService] = useState<ServiceCategoryDetail | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -25,6 +27,10 @@ const ServiceDetailPage: React.FC = () => {
         const serviceData = await getServiceBySlug(slug);
         if (serviceData) {
           setService(serviceData);
+          
+          const detailedData = DETAILED_SERVICES.find(ds => ds.slug === slug);
+          setDetailedService(detailedData || null);
+
           if (serviceData.relatedServices) {
             const allServices = await getServices();
             const related = allServices.filter(s => serviceData.relatedServices?.includes(s.slug));
@@ -107,6 +113,12 @@ const ServiceDetailPage: React.FC = () => {
                 </div>
             )}
         </div>
+
+        {detailedService && (
+            <div className="relative w-screen left-1/2 -ml-[50vw]">
+                <ServiceGrid category={detailedService} />
+            </div>
+        )}
 
         <div className="space-y-16 md:space-y-24">
             <section>
