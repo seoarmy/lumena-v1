@@ -1,10 +1,10 @@
-
 import React, { useState, useEffect } from 'react';
 import { getServices, DETAILED_SERVICES } from '../lib/data';
 import { Service } from '../types';
 import ServiceSlider from '../components/ServiceSlider';
 import AboutSection from '../components/AboutSection';
 import ServiceGrid from '../components/ServiceGrid';
+import SEO from '../components/SEO';
 
 const ServicesPage: React.FC = () => {
   const [services, setServices] = useState<Service[]>([]);
@@ -25,8 +25,32 @@ const ServicesPage: React.FC = () => {
     fetchServices();
   }, []);
 
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Servicios Médicos en LUMENA",
+    "description": "Lista de especialidades y servicios médicos disponibles en Clínica LUMENA.",
+    "itemListElement": services.map((service, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "item": {
+        "@type": "MedicalSpecialty",
+        "name": service.title,
+        "description": service.shortDescription,
+        "url": `https://clinicalumena.com/servicios/${service.slug}`
+      }
+    }))
+  };
+
   return (
     <div className="space-y-16 md:space-y-24">
+      <SEO 
+        title="Nuestros Servicios Médicos"
+        description="Explora nuestra amplia gama de servicios médicos en El Ejido: Odontología, Fisioterapia, Ginecología, Psicología, Nutrición y más. Cuidado integral para ti."
+        keywords={["servicios médicos", "especialidades médicas", "dentista", "fisioterapia", "ginecología", "el ejido"]}
+        schema={schema}
+      />
+
       <div className="text-center">
         <h1 className="text-4xl md:text-5xl font-bold text-primary">Nuestros Servicios</h1>
         <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">

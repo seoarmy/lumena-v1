@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
@@ -13,6 +12,7 @@ import { TestimonialsSection } from '../components/TestimonialsSection';
 import { ClientTypeSection } from '../components/ClientTypeSection';
 import { ServiceGallerySection } from '../components/ServiceGallerySection';
 import { IconArrowRight } from '@tabler/icons-react';
+import SEO from '../components/SEO';
 
 const HomePage: React.FC = () => {
     const [services, setServices] = useState<Service[]>([]);
@@ -32,8 +32,48 @@ const HomePage: React.FC = () => {
         fetchServices();
     }, []);
 
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "MedicalOrganization",
+      "name": "LUMENA Clínica de Salud",
+      "url": "https://clinicalumena.com",
+      "logo": "https://clinicalumena.com/logo.png",
+      "description": "LUMENA: Tu clínica de confianza en El Ejido. Especialistas en odontología, ginecología, fisioterapia y mucho más.",
+      "telephone": "+34645245709",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Calle Principal 123",
+        "addressLocality": "El Ejido",
+        "addressRegion": "Almería",
+        "postalCode": "04700",
+        "addressCountry": "ES"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "opens": "08:00",
+          "closes": "20:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Saturday",
+          "opens": "09:00",
+          "closes": "14:00"
+        }
+      ],
+      "medicalSpecialty": ["Odontologia", "Ginecologia", "Fisioterapia", "Psicologia", "Nutricion"]
+    };
+
   return (
     <div className="space-y-16 md:space-y-24">
+      <SEO 
+        title="Inicio"
+        description="Bienvenido a LUMENA Clínica de Salud en El Ejido. Ofrecemos servicios médicos integrales: odontología, ginecología, fisioterapia y más. Tecnología avanzada y trato humano."
+        keywords={["clínica el ejido", "médico el ejido", "dentista", "fisioterapeuta", "ginecólogo", "psicólogo", "salud almería"]}
+        schema={schema}
+      />
+
       {/* Hero Section */}
       <section className="py-16 md:py-24">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">

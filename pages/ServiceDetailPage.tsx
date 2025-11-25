@@ -11,6 +11,7 @@ import { TestimonialsSection } from '../components/TestimonialsSection';
 import { ServiceGallerySection } from '../components/ServiceGallerySection';
 import { FaqSection } from '../components/FaqSection';
 import ServiceGrid from '../components/ServiceGrid';
+import SEO from '../components/SEO';
 
 const ServiceDetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -64,8 +65,27 @@ const ServiceDetailPage: React.FC = () => {
     );
   }
 
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "MedicalSpecialty",
+    "name": service.title,
+    "description": service.shortDescription,
+    "provider": {
+        "@type": "MedicalOrganization",
+        "name": "LUMENA Clínica de Salud"
+    },
+    "image": service.imageUrl
+  };
+
   return (
     <>
+        <SEO 
+            title={service.title}
+            description={service.shortDescription}
+            keywords={[service.title, "clínica lumena", "salud", "el ejido"]}
+            image={service.imageUrl}
+            schema={schema}
+        />
         <section className="relative w-screen left-1/2 -ml-[50vw] bg-foreground text-primary-foreground py-20 md:py-32 overflow-hidden -mt-8 md:-mt-12">
             <div
                 className="absolute inset-0 bg-cover bg-center opacity-30"
@@ -94,25 +114,19 @@ const ServiceDetailPage: React.FC = () => {
             <ClientTypeSection />
         </div>
     
-        <div className="max-w-4xl mx-auto py-16 md:py-24">
-            <div className="prose lg:prose-xl max-w-none">
-                <p>{service.longDescription}</p>
-            </div>
-
-            {relatedServices.length > 0 && (
-                <div className="mt-16">
-                    <h3 className="text-2xl font-bold mb-4">Servicios Relacionados</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {relatedServices.map(related => (
-                            <Link key={related.slug} to={`/servicios/${related.slug}`} className="block p-4 border rounded-lg hover:bg-accent transition-colors">
-                                <h4 className="font-semibold text-primary">{related.title}</h4>
-                                <p className="text-sm text-muted-foreground">{related.shortDescription}</p>
-                            </Link>
-                        ))}
-                    </div>
+        {relatedServices.length > 0 && (
+            <div className="max-w-4xl mx-auto py-16 md:py-24">
+                <h3 className="text-2xl font-bold mb-4">Servicios Relacionados</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {relatedServices.map(related => (
+                        <Link key={related.slug} to={`/servicios/${related.slug}`} className="block p-4 border rounded-lg hover:bg-accent transition-colors">
+                            <h4 className="font-semibold text-primary">{related.title}</h4>
+                            <p className="text-sm text-muted-foreground">{related.shortDescription}</p>
+                        </Link>
+                    ))}
                 </div>
-            )}
-        </div>
+            </div>
+        )}
 
         {detailedService && (
             <div className="relative w-screen left-1/2 -ml-[50vw]">

@@ -12,6 +12,7 @@ import FeaturedServiceCard from '../components/FeaturedServiceCard';
 import Table from '../components/ui/Table';
 import Blockquote from '../components/ui/Blockquote';
 import CtaCard from '../components/CtaCard';
+import SEO from '../components/SEO';
 
 // --- HELPER & SUB-COMPONENTS ---
 
@@ -202,8 +203,7 @@ const BlogPostLayout: React.FC<{ post: Post }> = ({ post }) => {
 
   useEffect(() => {
     if (!contentRef.current) return;
-    // FIX: Use a generic type argument for `querySelectorAll` to correctly type the returned elements as `HTMLHeadingElement`, which ensures properties like `textContent`, `tagName`, and `id` are accessible without type errors.
-    const headingElements = Array.from(contentRef.current.querySelectorAll<HTMLHeadingElement>('h2, h3'));
+    const headingElements = Array.from(contentRef.current.querySelectorAll('h2, h3')) as HTMLHeadingElement[];
     const newHeadings = headingElements.map((el, i) => {
       const text = el.textContent || '';
       const level = parseInt(el.tagName.substring(1), 10);
@@ -242,8 +242,38 @@ const BlogPostLayout: React.FC<{ post: Post }> = ({ post }) => {
     ['Sesión de Fisioterapia', 'Tratamiento manual para dolencias musculares.', '50 min', '55€']
   ];
 
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "image": post.imageUrl,
+    "description": post.excerpt,
+    "articleBody": post.content,
+    "datePublished": post.date,
+    "author": {
+      "@type": "Person",
+      "name": post.author?.name
+    },
+    "publisher": {
+      "@type": "MedicalOrganization",
+      "name": "LUMENA Clínica de Salud",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://clinicalumena.com/logo.png"
+      }
+    }
+  };
+
   return (
     <div>
+      <SEO 
+        title={post.title}
+        description={post.excerpt}
+        image={post.imageUrl}
+        type="article"
+        author={post.author?.name}
+        schema={schema}
+      />
       {/* Hero Section */}
       <header
         className="relative min-h-[40vh] md:min-h-[50vh] flex items-center justify-center text-center text-white p-4 rounded-2xl overflow-hidden mb-8 bg-foreground"

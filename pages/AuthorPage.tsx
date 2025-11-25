@@ -15,6 +15,7 @@ import {
   IconMail,
   IconChevronRight
 } from '@tabler/icons-react';
+import SEO from '../components/SEO';
 
 const AuthorPage: React.FC = () => {
     const { slug } = useParams<{ slug: string }>();
@@ -84,8 +85,31 @@ const AuthorPage: React.FC = () => {
         email: IconMail,
     };
 
+    const schema = {
+        "@context": "https://schema.org",
+        "@type": "Physician",
+        "name": author.name,
+        "image": author.imageUrl,
+        "jobTitle": author.role,
+        "description": author.shortBio,
+        "medicalSpecialty": author.specialties.map(s => ({
+            "@type": "MedicalSpecialty",
+            "name": s
+        })),
+        "worksFor": {
+            "@type": "MedicalOrganization",
+            "name": "LUMENA Clínica de Salud"
+        }
+    };
+
     return (
         <div className="space-y-12">
+            <SEO 
+                title={`${author.name} - ${author.role}`}
+                description={`Perfil profesional de ${author.name}, ${author.role} en Clínica LUMENA. Especialista en ${author.specialties.join(', ')}.`}
+                image={author.imageUrl}
+                schema={schema}
+            />
             <nav aria-label="Breadcrumb" className="text-sm text-muted-foreground">
                 <ol className="flex items-center space-x-1.5">
                     <li><Link to="/" className="hover:text-primary">Home</Link></li>

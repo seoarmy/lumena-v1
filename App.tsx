@@ -3,6 +3,7 @@ import React from 'react';
 import { HashRouter, Routes, Route, Link, useLocation, Outlet } from 'react-router-dom';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
+import MobileNav from './components/layout/MobileNav';
 import HomePage from './pages/HomePage';
 import ServicesPage from './pages/ServicesPage';
 import ServiceDetailPage from './pages/ServiceDetailPage';
@@ -43,13 +44,14 @@ const PageLayout: React.FC = () => {
   const showCta = !['/aviso-legal', '/politica-de-privacidad', '/politica-de-cookies', '/sitemap.xml'].includes(location.pathname);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen pb-16 md:pb-0"> {/* Added padding bottom for mobile nav */}
       <Header />
       <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <Outlet /> {/* Child routes will render here */}
         {showCta && <CtaSection />}
       </main>
       <Footer />
+      <MobileNav />
     </div>
   );
 };

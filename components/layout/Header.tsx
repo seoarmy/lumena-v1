@@ -1,35 +1,57 @@
 
-import React, { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { NAV_LINKS } from '../../constants';
 import { Button } from '../ui/Button';
 import Logo from '../Logo';
+import { motion, AnimatePresence } from 'framer-motion';
+import { IconMenu2, IconX } from '@tabler/icons-react';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
 
   const closeMenu = () => setIsMenuOpen(false);
+
+  // Close menu on route change
+  useEffect(() => {
+    closeMenu();
+  }, [location]);
 
   const activeLinkStyle = {
     color: 'hsl(26, 29%, 50%)',
     fontWeight: '600',
   };
 
-  return (
-    <header className="bg-background/80 backdrop-blur-sm sticky top-0 z-50 border-b border-border/60">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-24">
-          <Logo />
+  // Lock body scroll when menu is open
+  useEffect(() => {
+      if (isMenuOpen) {
+          document.body.style.overflow = 'hidden';
+      } else {
+          document.body.style.overflow = 'unset';
+      }
+      return () => { document.body.style.overflow = 'unset'; }
+  }, [isMenuOpen]);
 
+  return (
+    <header className="bg-background/80 backdrop-blur-sm sticky top-0 z-40 border-b border-border/60 transition-all duration-300">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20 md:h-24">
+          <div className="relative z-50">
+             <Logo />
+          </div>
+
+          {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
             {NAV_LINKS.map((link) => (
               <NavLink
                 key={link.href}
                 to={link.href}
                 style={({ isActive }) => (isActive ? activeLinkStyle : {})}
-                className="text-foreground/80 hover:text-primary transition-colors font-medium"
+                className="text-foreground/80 hover:text-primary transition-colors font-medium relative group"
               >
                 {link.label}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
               </NavLink>
             ))}
           </nav>
@@ -40,43 +62,71 @@ const Header: React.FC = () => {
              </Link>
           </div>
 
-          <div className="md:hidden">
+          {/* Mobile Menu Button */}
+          <div className="md:hidden relative z-50">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-foreground hover:text-primary focus:outline-none"
+              className="text-foreground hover:text-primary focus:outline-none p-2 rounded-full hover:bg-muted/50 transition-colors"
+              aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
             >
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                {isMenuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
-                )}
-              </svg>
+                {isMenuOpen ? <IconX size={28} /> : <IconMenu2 size={28} />}
             </button>
           </div>
         </div>
       </div>
       
-      {isMenuOpen && (
-        <div className="md:hidden bg-background border-t">
-          <nav className="flex flex-col items-center space-y-4 p-4">
-            {NAV_LINKS.map((link) => (
-              <NavLink
-                key={link.href}
-                to={link.href}
-                onClick={closeMenu}
-                style={({ isActive }) => (isActive ? activeLinkStyle : {})}
-                className="text-foreground/80 hover:text-primary transition-colors w-full text-center py-2"
-              >
-                {link.label}
-              </NavLink>
-            ))}
-            <Link to="/contacto" className="w-full mt-2">
-                <Button className="w-full" onClick={closeMenu}>Pedir Cita</Button>
-            </Link>
-          </nav>
-        </div>
-      )}
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMenuOpen && (
+            <motion.div 
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.2 }}
+                className="fixed inset-0 top-0 z-40 bg-background/95 backdrop-blur-xl md:hidden flex flex-col pt-24 px-6 pb-8"
+            >
+                <nav className="flex flex-col space-y-6 text-center mt-8">
+                    {NAV_LINKS.map((link) => (
+                    <NavLink
+                        key={link.href}
+                        to={link.href}
+                        onClick={closeMenu}
+                        className={({ isActive }) => 
+                            `text-2xl font-medium transition-colors ${isActive ? 'text-primary font-bold' : 'text-foreground/80'}`
+                        }
+                    >
+                        {link.label}
+                    </NavLink>
+                    ))}
+                    
+                    <NavLink
+                        to="/especialistas"
+                        onClick={closeMenu}
+                        className={({ isActive }) => 
+                            `text-2xl font-medium transition-colors ${isActive ? 'text-primary font-bold' : 'text-foreground/80'}`
+                        }
+                    >
+                        Especialistas
+                    </NavLink>
+
+                    <div className="h-px bg-border/50 w-1/2 mx-auto my-4"></div>
+
+                    <Link to="/contacto" className="w-full" onClick={closeMenu}>
+                        <Button size="lg" className="w-full text-lg py-6 shadow-xl shadow-primary/20">
+                            Pedir Cita
+                        </Button>
+                    </Link>
+                </nav>
+
+                <div className="mt-auto text-center space-y-4">
+                    <p className="text-sm text-muted-foreground">
+                        LUMENA Clínica de Salud<br />
+                        Av. Principal 123, El Ejido
+                    </p>
+                </div>
+            </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };

@@ -4,6 +4,7 @@ import { getAuthors } from '../lib/data';
 import { Author } from '../types';
 import { Card } from '../components/ui/Card';
 import { IconArrowRight } from '@tabler/icons-react';
+import SEO from '../components/SEO';
 
 const SpecialistCard: React.FC<{ specialist: Author }> = ({ specialist }) => {
   return (
@@ -48,8 +49,32 @@ const SpecialistsPage: React.FC = () => {
     fetchSpecialists();
   }, []);
 
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Equipo Médico de LUMENA",
+    "itemListElement": specialists.map((specialist, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "item": {
+        "@type": "Physician",
+        "name": specialist.name,
+        "jobTitle": specialist.role,
+        "image": specialist.imageUrl,
+        "url": `https://clinicalumena.com/especialistas/${specialist.slug}`
+      }
+    }))
+  };
+
   return (
     <div className="space-y-12">
+      <SEO 
+        title="Nuestro Equipo Médico"
+        description="Conoce a los doctores y especialistas de LUMENA. Profesionales expertos en Odontología, Ginecología, Fisioterapia y más."
+        keywords={["equipo médico", "doctores el ejido", "especialistas salud", "dentistas", "fisioterapeutas"]}
+        schema={schema}
+      />
+
       <div className="text-center">
         <h1 className="text-4xl md:text-5xl font-bold text-primary">Nuestro Equipo de Especialistas</h1>
         <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">

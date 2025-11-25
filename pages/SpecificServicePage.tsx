@@ -10,6 +10,7 @@ import QuickAppointmentForm from '../components/QuickAppointmentForm';
 import { 
     IconCheck, IconStar, IconShieldCheck, IconClock, IconMoodSmile, IconHeartHandshake 
 } from '@tabler/icons-react';
+import SEO from '../components/SEO';
 
 const BenefitsGrid = () => {
     const benefits = [
@@ -81,8 +82,34 @@ const SpecificServicePage: React.FC = () => {
         { title: "¿Aceptan seguros médicos?", content: "Sí, trabajamos con las principales aseguradoras. Consúltanos para verificar tu cobertura." },
     ];
 
+    const schema = {
+        "@context": "https://schema.org",
+        "@type": "MedicalProcedure",
+        "name": service.title,
+        "description": service.description,
+        "procedureType": "NoninvasiveProcedure",
+        "bodyLocation": "Body", // Generic, could be specific based on category
+        "performer": {
+            "@type": "Physician",
+            "name": doctor.name,
+            "jobTitle": doctor.role
+        },
+        "offers": {
+            "@type": "Offer",
+            "price": service.price,
+            "priceCurrency": "EUR",
+            "availability": "https://schema.org/InStock"
+        }
+    };
+
     return (
         <div className="container mx-auto px-4 py-8 md:py-12">
+            <SEO 
+                title={`${service.title} - ${category.name}`}
+                description={service.description}
+                keywords={[service.title, category.name, "tratamiento", "precio", "el ejido"]}
+                schema={schema}
+            />
             {/* Breadcrumbs */}
             <nav className="text-sm text-muted-foreground mb-8">
                 <ol className="flex items-center space-x-2">
@@ -122,6 +149,11 @@ const SpecificServicePage: React.FC = () => {
                             ))}
                         </div>
                     </section>
+                    
+                    {/* Mobile Quick Appointment Form (Below Gallery) */}
+                    <div className="lg:hidden mt-8">
+                         <QuickAppointmentForm defaultService={service.title} idPrefix="mobile-quick" />
+                    </div>
 
                     {/* Benefits */}
                     <section>
@@ -146,7 +178,10 @@ const SpecificServicePage: React.FC = () => {
                 {/* Sticky Sidebar */}
                 <aside className="lg:col-span-1">
                     <div className="sticky top-28 space-y-6">
-                        <QuickAppointmentForm />
+                        {/* Desktop Quick Appointment Form (Hidden on Mobile) */}
+                        <div className="hidden lg:block">
+                            <QuickAppointmentForm defaultService={service.title} idPrefix="desktop-quick" />
+                        </div>
                         
                         {/* Mini Doctor Profile Card */}
                         <Link to={`/especialistas/${doctor.slug}`} className="block group">
